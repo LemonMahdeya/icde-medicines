@@ -38,7 +38,7 @@
 <script>
 let data = [];
 
-// تحميل بيانات JSON من نفس Repo
+// جلب JSON من نفس Repo
 fetch('medicines.json')
   .then(res => res.json())
   .then(json => data = json);
@@ -56,16 +56,16 @@ input.addEventListener('input', function() {
     if (!term) return;
 
     let suggestions = data.filter(d => 
-        d.TradeName.toLowerCase().includes(term) || 
-        d.ScientificName.toLowerCase().includes(term)
+        d["Trade Name"].toLowerCase().includes(term) || 
+        d["Scientific Name"].toLowerCase().includes(term)
     ).slice(0,10);
 
     suggestions.forEach(d => {
         let div = document.createElement('div');
         div.classList.add('autocomplete-item');
-        div.textContent = `${d.TradeName} (${d.ScientificName})`;
+        div.textContent = `${d["Trade Name"]} (${d["Scientific Name"]})`;
         div.addEventListener('click', function() {
-            input.value = d.TradeName;
+            input.value = d["Trade Name"];
             list.innerHTML = '';
             showResults([d]);
         });
@@ -78,8 +78,8 @@ searchBtn.addEventListener('click', function(e) {
     e.preventDefault();
     let term = input.value.toLowerCase();
     let filtered = data.filter(d =>
-        d.TradeName.toLowerCase().includes(term) || 
-        d.ScientificName.toLowerCase().includes(term)
+        d["Trade Name"].toLowerCase().includes(term) || 
+        d["Scientific Name"].toLowerCase().includes(term)
     );
     showResults(filtered);
     list.innerHTML = '';
@@ -104,12 +104,12 @@ function showResults(filtered) {
         </thead>
         <tbody>
           ${filtered.map(d => `<tr>
-            <td>${d.TradeName}</td>
-            <td>${d.ScientificName}</td>
-            <td>${d.Price}</td>
-            <td>${d.DrugType}</td>
-            <td>${d.ICD10}</td>
-            <td>${d.Indication}</td>
+            <td>${d["Trade Name"]}</td>
+            <td>${d["Scientific Name"]}</td>
+            <td>${d["Public price"]}</td>
+            <td>${d["DrugType"]}</td>
+            <td>${d["ICD 10 CODE"]}</td>
+            <td>${d["INDICATION"]}</td>
           </tr>`).join('')}
         </tbody>
       </table>`;
